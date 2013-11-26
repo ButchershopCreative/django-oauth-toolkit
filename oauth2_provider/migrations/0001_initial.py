@@ -16,24 +16,24 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'Application'
-        db.create_table(u'oauth2_provider_application', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('client_id', self.gf('django.db.models.fields.CharField')(default='284250a821f74df67cb50b6c2b7fc95d39d0e4a9', unique=True, max_length=100)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
-            ('redirect_uris', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('client_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('authorization_grant_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('client_secret', self.gf('django.db.models.fields.CharField')(default='89288b8343edef095b5fee98b4def28409cf4e064fcd26b00c555f51d8fdabfcaedbae8b9d6739080cf27d216e13cc85133d794c9cc1018e0d116c951f0b865e', max_length=255, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-        ))
-        db.send_create_signal(u'oauth2_provider', ['Application'])
+        # db.create_table(u'oauth2_provider_application', (
+        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        #     ('client_id', self.gf('django.db.models.fields.CharField')(default='284250a821f74df67cb50b6c2b7fc95d39d0e4a9', unique=True, max_length=100)),
+        #     ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
+        #     ('redirect_uris', self.gf('django.db.models.fields.TextField')(blank=True)),
+        #     ('client_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
+        #     ('authorization_grant_type', self.gf('django.db.models.fields.CharField')(max_length=32)),
+        #     ('client_secret', self.gf('django.db.models.fields.CharField')(default='89288b8343edef095b5fee98b4def28409cf4e064fcd26b00c555f51d8fdabfcaedbae8b9d6739080cf27d216e13cc85133d794c9cc1018e0d116c951f0b865e', max_length=255, blank=True)),
+        #     ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+        # ))
+        # db.send_create_signal(u'oauth2_provider', ['Application'])
 
         # Adding model 'Grant'
         db.create_table(u'oauth2_provider_grant', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_provider.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
             ('expires', self.gf('django.db.models.fields.DateTimeField')()),
             ('redirect_uri', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('scope', self.gf('django.db.models.fields.TextField')(blank=True)),
@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('token', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_provider.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
             ('expires', self.gf('django.db.models.fields.DateTimeField')()),
             ('scope', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
@@ -56,7 +56,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('token', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_provider.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
             ('access_token', self.gf('django.db.models.fields.related.OneToOneField')(related_name='refresh_token', unique=True, to=orm['oauth2_provider.AccessToken'])),
         ))
         db.send_create_signal(u'oauth2_provider', ['RefreshToken'])
@@ -64,7 +64,10 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
         # Deleting model 'Application'
-        db.delete_table(u'oauth2_provider_application')
+        try:
+            db.delete_table(u'oauth2_provider_application')
+        except:
+            pass
 
         # Deleting model 'Grant'
         db.delete_table(u'oauth2_provider_grant')
