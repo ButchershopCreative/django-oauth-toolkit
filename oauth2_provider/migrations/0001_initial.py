@@ -33,7 +33,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.OAuth2Application'])),
             ('expires', self.gf('django.db.models.fields.DateTimeField')()),
             ('redirect_uri', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('scope', self.gf('django.db.models.fields.TextField')(blank=True)),
@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('token', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.OAuth2Application'])),
             ('expires', self.gf('django.db.models.fields.DateTimeField')()),
             ('scope', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
@@ -56,7 +56,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)])),
             ('token', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.Application'])),
+            ('application', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['oauth2_applications.OAuth2Application'])),
             ('access_token', self.gf('django.db.models.fields.related.OneToOneField')(related_name='refresh_token', unique=True, to=orm['oauth2_provider.AccessToken'])),
         ))
         db.send_create_signal(u'oauth2_provider', ['RefreshToken'])
